@@ -1,0 +1,62 @@
+{
+  "name": "azure-storage-blob",
+  "version": "10.0.0-preview",
+  "description": "Microsoft Azure Blob Storage Library for JavaScript",
+  "main": "./dist/lib/index.js",
+  "module": "./es6dist/index.js",
+  "browser": "./dist/lib/index.browser.js",
+  "types": "./typings/lib/index.d.ts",
+  "dependencies": {
+    "ms-rest-js": "0.18.377"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.4",
+    "glob": "^7.1.2",
+    "karma": "^3.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.5",
+    "mocha": "^5.2.0",
+    "ts-loader": "^4.4.2",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1",
+    "webpack": "^4.14.0",
+    "webpack-cli": "^3.0.8"
+  },
+  "scripts": {
+    "test:node": "mocha --timeout 100000 -r ts-node/register test/*.ts test/node/*.ts",
+    "test:browser": "npm run build:browser-test && karma start --single-run",
+    "build:cjs": "node ./node_modules/typescript/bin/tsc -p tsconfig.json",
+    "build:es6": "node ./node_modules/typescript/bin/tsc -p tsconfig.es6.json",
+    "build:browser": "webpack",
+    "build:browser-test": "webpack --config webpack.testconfig.js",
+    "build:autorest-rest": "autorest ./swagger/README.md --typescript --generate-body-methods=false --rest",
+    "build:autorest-preview": "autorest ./swagger/README.md --typescript --generate-body-methods=false --use=@microsoft.azure/autorest.typescript@preview",
+    "build:autorest": "autorest ./swagger/README.md --typescript --generate-body-methods=false --use=@microsoft.azure/autorest.typescript@2.0.437",
+    "prepare": "npm run build:cjs && npm run build:es6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-storage-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Storage",
+    "Blob",
+    "Node.js",
+    "TypeScript",
+    "JavaScript",
+    "Browser"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-storage-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-storage-js#readme"
+}
