@@ -71,5 +71,6 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-storage-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-storage-js#readme"
+  "homepage": "https://github.com/Azure/azure-storage-js#readme",
+  "sideEffects": false
 }
