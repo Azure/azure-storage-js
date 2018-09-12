@@ -48,11 +48,15 @@ There are differences between Node.js and browsers runtime. When getting start w
 
 #### Compatible with IE11
 
-You need polyfills to make this library work with IE11. The easiest way is to using [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill).
+You need polyfills to make this library work with IE11. The easiest way is to use [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill).
 Or you can load separate polyfills for missed ES feature(s).
 This library depends on following ES6+ feature(s) which needs external polyfills loaded.
 
 * `Promise`
+* `String.prototype.startsWith`
+* `String.prototype.endsWith`
+* `String.prototype.repeat`
+* `String.prototype.includes`
 
 ## Getting Started
 

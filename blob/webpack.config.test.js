@@ -5,9 +5,12 @@ var webpack = require("webpack");
 module.exports = {
   mode: "development",
   entry: [
-    // "@babel/polyfill", // Use babel or lightweight es6-promise
-    "es6-promise/auto",
-    "./lib/utils/polyfills.browser.ts",
+    // "@babel/polyfill", // Use babel or only specify the missing features
+    "core-js/fn/promise",
+    "core-js/fn/string/starts-with",
+    "core-js/fn/string/ends-with",
+    "core-js/fn/string/repeat",
+    "core-js/fn/string/includes",
     "./test/aborter.test.ts",
     "./test/appendbloburl.test.ts",
     "./test/bloburl.test.ts",
