@@ -4,11 +4,7 @@
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
   "module": "./dist-esm/lib/index.js",
-  "browser": {
-    "./dist/lib/index.js": "./dist/lib/index.browser.js",
-    "os": false,
-    "process": false
-  },
+  "browser": "./dist/index.browser.js",
   "types": "./typings/lib/index.d.ts",
   "engines": {
     "node": ">=6.5.0"
