@@ -10,13 +10,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true,
-    "module": "es6",
+    "module": "esNext",
     "outDir": "./dist-esm",
     "declaration": true,
     "declarationMap": true,
     "importHelpers": true,
     "declarationDir": "./typings",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"]
+    "lib": ["dom", "es5", "es6", "es7", "esnext"],
+    "esModuleInterop": true
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],
