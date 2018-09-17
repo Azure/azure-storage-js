@@ -1,10 +1,8 @@
-import { RequestPolicy, RequestPolicyOptions, WebResource } from "ms-rest-js";
-import { HttpHeader } from "ms-rest-js/typings/lib/httpHeaders";
-
-import { SharedKeyCredential } from "../credentials/SharedKeyCredential";
-import { HeaderConstants } from "../utils/constants";
-import { getURLPath, getURLQueries } from "../utils/utils.common";
-import { CredentialPolicy } from "./CredentialPolicy";
+import { RequestPolicy, RequestPolicyOptions, WebResource } from 'ms-rest-js';
+import { SharedKeyCredential } from '../credentials/SharedKeyCredential';
+import { HeaderConstants } from '../utils/constants';
+import { getURLPath, getURLQueries } from '../utils/utils.common';
+import { CredentialPolicy } from './CredentialPolicy';
 
 /**
  * SharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
@@ -51,7 +49,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
 
     if (
       request.body &&
-      typeof request.body === "string" &&
+      typeof request.body === 'string' &&
       request.body.length > 0
     ) {
       request.headers.set(HeaderConstants.CONTENT_LENGTH, request.body.length);
@@ -71,8 +69,8 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
         this.getHeaderValueToSign(request, HeaderConstants.IF_NONE_MATCH),
         this.getHeaderValueToSign(request, HeaderConstants.IF_UNMODIFIED_SINCE),
         this.getHeaderValueToSign(request, HeaderConstants.RANGE)
-      ].join("\n") +
-      "\n" +
+      ].join('\n') +
+      '\n' +
       this.getCanonicalizedHeadersString(request) +
       this.getCanonicalizedResourceString(request);
 
@@ -106,14 +104,14 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
     const value = request.headers.get(headerName);
 
     if (!value) {
-      return "";
+      return '';
     }
 
     // When using version 2015-02-21 or later, if Content-Length is zero, then
     // set the Content-Length part of the StringToSign to an empty string.
     // https://docs.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
-    if (headerName === HeaderConstants.CONTENT_LENGTH && value === "0") {
-      return "";
+    if (headerName === HeaderConstants.CONTENT_LENGTH && value === '0') {
+      return '';
     }
 
     return value;
@@ -136,35 +134,31 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
    * @memberof SharedKeyCredentialPolicy
    */
   private getCanonicalizedHeadersString(request: WebResource): string {
-    let headersArray: HttpHeader[] = request.headers
-      .headersArray()
-      .filter((value: HttpHeader) => {
-        return value.name
-          .toLowerCase()
-          .startsWith(HeaderConstants.PREFIX_FOR_STORAGE);
-      });
+    let headersArray = request.headers.headersArray().filter(value => {
+      return value.name
+        .toLowerCase()
+        .startsWith(HeaderConstants.PREFIX_FOR_STORAGE);
+    });
 
     headersArray.sort(
-      (a: HttpHeader, b: HttpHeader): number => {
+      (a, b): number => {
         return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
       }
     );
 
     // Remove duplicate headers
-    headersArray = headersArray.filter(
-      (value: HttpHeader, index: number, array: HttpHeader[]) => {
-        if (
-          index > 0 &&
-          value.name.toLowerCase() === array[index - 1].name.toLowerCase()
-        ) {
-          return false;
-        }
-        return true;
+    headersArray = headersArray.filter((value, index, array) => {
+      if (
+        index > 0 &&
+        value.name.toLowerCase() === array[index - 1].name.toLowerCase()
+      ) {
+        return false;
       }
-    );
+      return true;
+    });
 
-    let canonicalizedHeadersStringToSign: string = "";
-    headersArray.forEach((header: HttpHeader) => {
+    let canonicalizedHeadersStringToSign: string = '';
+    headersArray.forEach(header => {
       canonicalizedHeadersStringToSign += `${header.name
         .toLowerCase()
         .trimRight()}:${header.value.trimLeft()}\n`;
@@ -182,9 +176,9 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
    * @memberof SharedKeyCredentialPolicy
    */
   private getCanonicalizedResourceString(request: WebResource): string {
-    const path = getURLPath(request.url) ? getURLPath(request.url) : "/";
+    const path = getURLPath(request.url) ? getURLPath(request.url) : '/';
 
-    let canonicalizedResourceString: string = "";
+    let canonicalizedResourceString: string = '';
     canonicalizedResourceString += `/${this.factory.accountName}${path}`;
 
     const queries = getURLQueries(request.url);
