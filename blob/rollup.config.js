@@ -1,8 +1,8 @@
-import localResolve from 'rollup-plugin-local-resolve';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import { uglify } from 'rollup-plugin-uglify';
 import builtins from 'rollup-plugin-node-builtins';
 import replace from 'rollup-plugin-replace';
+import globals from 'rollup-plugin-node-globals';
 
 export default [
   {
@@ -11,14 +11,9 @@ export default [
     output: {
       file: 'dist/index.js',
       format: 'cjs',
-      name: 'Microsoft.Azure.Storage.BlobService',
       sourcemap: true
     },
-    plugins: [
-      localResolve(),
-      nodeResolve({ module: true, only: ['tslib'] }),
-      uglify()
-    ]
+    plugins: [nodeResolve({ module: true }), uglify()]
   },
   {
     external: ['ms-rest-js'],
@@ -42,13 +37,12 @@ export default [
           'if (isNode)': 'if (false)'
         }
       }),
-      localResolve(),
+      globals(),
+      builtins(),
       nodeResolve({
         module: true,
-        browser: true,
-        only: ['tslib']
+        browser: true
       }),
-      builtins(),
       uglify()
     ]
   }
