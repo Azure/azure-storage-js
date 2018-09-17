@@ -1,5 +1,5 @@
-!dist/lib/**/*.js
-!es6dist/lib/**/*.js
+!dist/**/*.js
+!dist-esm/lib/**/*.js
 !typings/lib/**/*.d.ts
 
 # git #
@@ -22,9 +22,6 @@ typings/samples
 
 # Swagger #
 swagger/
-
-# lib #
-lib/
 
 # Browser #
 browser/
