@@ -53,7 +53,7 @@
     "build:es6": "node ./node_modules/typescript/bin/tsc -p tsconfig.json",
     "build:autorest": "autorest ./swagger/README.md --typescript --use=@microsoft.azure/autorest.typescript@2.0.476",
     "prepare": "npm run build",
-    "clean": "rimraf dist && rimraf dist-es6 && rimraf browser/test && rimraf browser/*.js && rimraf browser/*.zip && rimraf browser/*.log && rimraf typings && rimraf temp"
+    "clean": "rimraf dist && rimraf dist-esm && rimraf typings && rimraf temp"
   },
   "repository": {
     "type": "git",
