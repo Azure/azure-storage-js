@@ -1,8 +1,8 @@
-import { RequestPolicy, RequestPolicyOptions, WebResource } from 'ms-rest-js';
-import { SharedKeyCredential } from '../credentials/SharedKeyCredential';
-import { HeaderConstants } from '../utils/constants';
-import { getURLPath, getURLQueries } from '../utils/utils.common';
-import { CredentialPolicy } from './CredentialPolicy';
+import { RequestPolicy, RequestPolicyOptions, WebResource } from "ms-rest-js";
+import { SharedKeyCredential } from "../credentials/SharedKeyCredential";
+import { HeaderConstants } from "../utils/constants";
+import { getURLPath, getURLQueries } from "../utils/utils.common";
+import { CredentialPolicy } from "./CredentialPolicy";
 
 /**
  * SharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
@@ -49,7 +49,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
 
     if (
       request.body &&
-      typeof request.body === 'string' &&
+      typeof request.body === "string" &&
       request.body.length > 0
     ) {
       request.headers.set(HeaderConstants.CONTENT_LENGTH, request.body.length);
@@ -69,8 +69,8 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
         this.getHeaderValueToSign(request, HeaderConstants.IF_NONE_MATCH),
         this.getHeaderValueToSign(request, HeaderConstants.IF_UNMODIFIED_SINCE),
         this.getHeaderValueToSign(request, HeaderConstants.RANGE)
-      ].join('\n') +
-      '\n' +
+      ].join("\n") +
+      "\n" +
       this.getCanonicalizedHeadersString(request) +
       this.getCanonicalizedResourceString(request);
 
@@ -104,14 +104,14 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
     const value = request.headers.get(headerName);
 
     if (!value) {
-      return '';
+      return "";
     }
 
     // When using version 2015-02-21 or later, if Content-Length is zero, then
     // set the Content-Length part of the StringToSign to an empty string.
     // https://docs.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
-    if (headerName === HeaderConstants.CONTENT_LENGTH && value === '0') {
-      return '';
+    if (headerName === HeaderConstants.CONTENT_LENGTH && value === "0") {
+      return "";
     }
 
     return value;
@@ -157,7 +157,7 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
       return true;
     });
 
-    let canonicalizedHeadersStringToSign: string = '';
+    let canonicalizedHeadersStringToSign: string = "";
     headersArray.forEach(header => {
       canonicalizedHeadersStringToSign += `${header.name
         .toLowerCase()
@@ -176,9 +176,9 @@ export class SharedKeyCredentialPolicy extends CredentialPolicy {
    * @memberof SharedKeyCredentialPolicy
    */
   private getCanonicalizedResourceString(request: WebResource): string {
-    const path = getURLPath(request.url) ? getURLPath(request.url) : '/';
+    const path = getURLPath(request.url) ? getURLPath(request.url) : "/";
 
-    let canonicalizedResourceString: string = '';
+    let canonicalizedResourceString: string = "";
     canonicalizedResourceString += `/${this.factory.accountName}${path}`;
 
     const queries = getURLQueries(request.url);
