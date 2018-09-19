@@ -1,8 +1,8 @@
 import nodeResolve from 'rollup-plugin-node-resolve';
 import { uglify } from 'rollup-plugin-uglify';
-import builtins from 'rollup-plugin-node-builtins';
 import replace from 'rollup-plugin-replace';
-import globals from 'rollup-plugin-node-globals';
+import commonjs from 'rollup-plugin-commonjs';
+import shim from 'rollup-plugin-shim';
 
 export default [
   {
@@ -37,11 +37,23 @@ export default [
           'if (isNode)': 'if (false)'
         }
       }),
-      globals(),
-      builtins(),
+      // os is not used by the browser bundle, so just shim it
+      shim({
+        os: `
+            export const type = 1;
+            export const release = 1;
+          `
+      }),
       nodeResolve({
         module: true,
-        browser: true
+        browser: true,
+        preferBuiltins: false
+      }),
+      commonjs({
+        namedExports: {
+          events: ['EventEmitter'],
+          assert: ['ok', 'deepEqual', 'equal', 'fail', 'deepStrictEqual']
+        }
       }),
       uglify()
     ]
