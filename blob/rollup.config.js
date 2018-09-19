@@ -24,7 +24,7 @@ export default [
       },
       file: 'dist/index.browser.js',
       format: 'umd',
-      name: 'azBlob',
+      name: 'azblob',
       sourcemap: true
     },
     plugins: [
