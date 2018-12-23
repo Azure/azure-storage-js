@@ -164,3 +164,136 @@ jobs:
           codeCoverageTool: Cobertura
           summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/*coverage.xml"
           reportDirectory: "$(System.DefaultWorkingDirectory)/**/coverage-browser"
+
+
+  - job: queuenodejslinux
+    displayName: Queue Linux
+    pool:
+      vmImage: "ubuntu-16.04"
+    strategy:
+      matrix:
+        node_6_x:
+          node_version: 6.x
+        node_8_x:
+          node_version: 8.x
+        node_10_x:
+          node_version: 10.x
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "$(node_version)"
+        displayName: "Install Node.js"
+
+      - script: |
+          npm install
+          npm run build
+        workingDirectory: "./queue"
+        displayName: "npm install and build"
+
+      - script: |
+          npm run test:node
+        workingDirectory: "./queue"
+        displayName: "npm run test:node"
+        env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_KEY: "$(ACCOUNT_KEY)", SECONDARY_ACCOUNT_NAME": "$(ACCOUNT_NAME)", SECONDARY_ACCOUNT_KEY: "$(ACCOUNT_KEY)" }
+
+      - task: PublishTestResults@2
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: "./queue/test-results.xml"
+
+  - job: queuenodejswin
+    displayName: Queue Windows
+    pool:
+      vmImage: "vs2017-win2016"
+    strategy:
+      matrix:
+        node_6_x:
+          node_version: 6.x
+        node_8_x:
+          node_version: 8.x
+        node_10_x:
+          node_version: 10.x
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "$(node_version)"
+        displayName: "Install Node.js"
+
+      - script: |
+          npm install
+          npm run build
+        workingDirectory: "./queue"
+        displayName: "npm install and build"
+
+      - script: |
+          npm run test:node
+        workingDirectory: "./queue"
+        displayName: "npm run test:node"
+        env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_KEY: "$(ACCOUNT_KEY)", SECONDARY_ACCOUNT_NAME": "$(ACCOUNT_NAME)", SECONDARY_ACCOUNT_KEY: "$(ACCOUNT_KEY)" }
+
+      - task: PublishTestResults@2
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: "./queue/test-results.xml"
+
+  - job: queuenodejsmac
+    displayName: Queue Mac
+    pool:
+      vmImage: "macOS-10.13"
+    strategy:
+      matrix:
+        node_6_x:
+          node_version: 6.x
+        node_8_x:
+          node_version: 8.x
+        node_10_x:
+          node_version: 10.x
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "$(node_version)"
+        displayName: "Install Node.js"
+
+      - script: |
+          npm install
+          npm run build
+        workingDirectory: "./queue"
+        displayName: "npm install and build"
+
+      - script: |
+          npm run test:node
+        workingDirectory: "./queue"
+        displayName: "npm run test:node"
+        env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_KEY: "$(ACCOUNT_KEY)", SECONDARY_ACCOUNT_NAME": "$(ACCOUNT_NAME)", SECONDARY_ACCOUNT_KEY: "$(ACCOUNT_KEY)" }
+
+      - task: PublishTestResults@2
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: "./queue/test-results.xml"
+
+  - job: queuebrowser
+    displayName: Queue Browser
+    pool:
+      vmImage: "Ubuntu 16.04"
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "10.x"
+        displayName: "Install Node.js"
+
+      - script: |
+          npm install
+          npm run build
+        workingDirectory: "./queue"
+        displayName: "npm install and build"
+
+      - script: |
+          npm run test:browser
+        workingDirectory: "./queue"
+        displayName: "npm run test:browser"
+        env: { ACCOUNT_NAME: "$(ACCOUNT_NAME)", ACCOUNT_SAS: "$(ACCOUNT_SAS)" }
+
+      - task: PublishTestResults@2
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: "./queue/test-results.browser.xml"
