@@ -19,7 +19,6 @@ module.exports = function(config) {
             "karma-ie-launcher",
             "karma-env-preprocessor",
             "karma-coverage",
-            "karma-remap-coverage",
             "karma-junit-reporter"
         ],
 
@@ -51,7 +50,7 @@ module.exports = function(config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ["mocha", "coverage", "remap-coverage", "junit"],
+        reporters: ["mocha", "coverage", "junit"],
 
         coverageReporter: { type: "in-memory" },
 

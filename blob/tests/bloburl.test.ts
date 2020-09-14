@@ -1,6 +1,6 @@
 import * as assert from "assert";
 
-import { isNode } from "@azure/ms-rest-js";
+import { isNode, URLBuilder, URLQuery } from "@azure/ms-rest-js";
 import { Aborter } from "../lib/Aborter";
 import { BlobURL } from "../lib/BlobURL";
 import { BlockBlobURL } from "../lib/BlockBlobURL";
@@ -299,7 +299,7 @@ describe("BlobURL", () => {
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
 
-  it("startCopyFromURL", async () => {
+  it.only("startCopyFromURL", async () => {
     const newBlobURL = BlobURL.fromContainerURL(
       containerURL,
       getUniqueName("copiedblob")
@@ -311,7 +311,26 @@ describe("BlobURL", () => {
     const properties2 = await newBlobURL.getProperties(Aborter.none);
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
-    assert.deepStrictEqual(properties2.copySource, blobURL.url);
+
+    // A service feature is being rolling out which will sanitize the sig field
+    // so we remove it before comparing urls.
+    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+
+    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
+    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
+    sanitizedQuery.set("sig", undefined);
+    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+
+    const sanitizedExpectedUrl = URLBuilder.parse(blobURL.url);
+    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
+    sanitizedQuery2.set("sig", undefined);
+    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+
+    assert.deepStrictEqual(
+      sanitizedActualUrl.toString(),
+      sanitizedExpectedUrl.toString(),
+      "copySource does not match original source"
+    );
   });
 
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
