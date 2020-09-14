@@ -299,7 +299,7 @@ describe("BlobURL", () => {
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
 
-  it.only("startCopyFromURL", async () => {
+  it("startCopyFromURL", async () => {
     const newBlobURL = BlobURL.fromContainerURL(
       containerURL,
       getUniqueName("copiedblob")
