@@ -10,7 +10,7 @@ The Azure Storage development team uses Visual Studio Code. However, any preferr
 
 ### Install
 
-* Node.js valid LTS versions (>=6.5.0)
+* Node.js valid LTS versions (>=10.22.0)
 * Browsers like Chrome, Edge or Firefox
 * Clone the source code from GitHub
 

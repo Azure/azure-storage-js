@@ -13,7 +13,7 @@
     },
     "types": "./typings/lib/index.d.ts",
     "engines": {
-        "node": ">=6.5.0"
+        "node": ">=10.22.0"
     },
     "dependencies": {
         "@azure/ms-rest-js": "^1.2.3",

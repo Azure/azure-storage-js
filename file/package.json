@@ -14,7 +14,7 @@
   },
   "types": "./typings/lib/index.d.ts",
   "engines": {
-    "node": ">=6.5.0"
+    "node": ">=10.22.0"
   },
   "dependencies": {
     "events": "3.0.0",
