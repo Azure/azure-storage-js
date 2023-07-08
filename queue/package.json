@@ -16,7 +16,7 @@
         "node": ">=10.22.0"
     },
     "dependencies": {
-        "@azure/ms-rest-js": "^1.2.3",
+        "@azure/ms-rest-js": "^2.7.0",
         "tslib": "^1.9.3"
     },
     "devDependencies": {
